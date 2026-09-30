@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¿Cuánto sabes de mí? 🤍</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#000;color:#fff;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{overflow-x:hidden}.app{min-height:100vh;background:#000;display:flex;justify-content:center}.screen{width:100%;max-width:520px;min-height:100vh;padding:24px 18px 32px;display:flex;flex-direction:column}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{font-size:13px;letter-spacing:2px;color:#aaa;text-transform:uppercase}.counter{font-size:13px;color:#aaa}.progress{height:4px;background:#1b1b1b;border-radius:99px;overflow:hidden;margin-bottom:28px}.progress span{display:block;height:100%;width:5%;background:#fff;border-radius:99px;transition:width .35s ease}.intro{text-align:center;margin:auto 0}.heart{font-size:58px;filter:drop-shadow(0 0 18px rgba(255,255,255,.12));animation:float 2.5s ease-in-out infinite}.intro h1{font-size:31px;line-height:1.08;margin:18px 0 12px}.intro p{color:#aaa;line-height:1.55;margin:0 auto 28px;max-width:380px}.btn{width:100%;border:0;border-radius:16px;background:#fff;color:#000;font-size:16px;font-weight:750;padding:16px 18px;cursor:pointer;transition:transform .15s,background .15s}.btn:active{transform:scale(.97)}.question{margin-top:12px}.qnum{font-size:12px;color:#777;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}.question h2{font-size:26px;line-height:1.18;margin:0 0 24px}.answers{display:grid;gap:12px}.answer{width:100%;padding:16px 15px;border-radius:15px;border:1px solid #292929;background:#0d0d0d;color:#fff;text-align:left;font-size:15px;cursor:pointer;transition:transform .15s,border .2s,background .2s}.answer:active{transform:scale(.985)}.answer.disabled{pointer-events:none}.answer.correct{background:#102516;border-color:#4ad66d}.answer.wrong{background:#281012;border-color:#ff5a66}.feedback{height:38px;margin-top:15px;text-align:center;font-weight:700;opacity:0;transform:translateY(5px)}.feedback.show{animation:feedback .55s forwards}.result{text-align:center;margin:auto 0}.score{font-size:64px;font-weight:850;line-height:1}.result h2{font-size:29px;margin:15px 0 8px}.result p{color:#aaa;line-height:1.5}.letter{margin-top:28px;text-align:left;background:#0c0c0c;border:1px solid #202020;border-radius:20px;padding:22px 18px;line-height:1.62;color:#eee;white-space:pre-line}.letter h3{text-align:center;font-size:22px;margin:0 0 18px}.hidden{display:none!important}.spark{position:fixed;inset:0;pointer-events:none;overflow:hidden}.spark i{position:absolute;width:7px;height:7px;border-radius:50%;background:#fff;animation:pop .8s ease-out forwards}.shake{animation:shake .4s}.pulse{animation:pulse .45s}.footer{margin-top:22px;text-align:center;color:#555;font-size:11px}
+@keyframes float{50%{transform:translateY(-7px)}}@keyframes feedback{to{opacity:1;transform:translateY(0)}}@keyframes pop{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}@keyframes pulse{50%{transform:scale(1.025)}}
+</style>
+</head>
+<body>
+<div class="app"><main class="screen">
+  <div id="intro" class="intro">
+    <div class="heart">🤍</div>
+    <h1>¿CUÁNTO SABES DE MÍ?</h1>
+    <p>Un pequeño quiz para comprobar cuánto me conoces.<br>Y no vale hacer trampas, Nayra 😭</p>
+    <button id="startBtn" class="btn" type="button">EMPEZAR QUIZ</button>
+  </div>
+  <div id="welcome" class="hidden intro">
+    <div class="heart">🤍</div>
+    <h1>Para Nayra</h1>
+    <p>He hecho esto especialmente para ti.<br>Antes de empezar, respira, concéntrate... y a ver cuánto sabes de mí 👀</p>
+    <button id="welcomeBtn" class="btn" type="button">ESTOY LISTA 🤍</button>
+  </div>
+  <div id="quiz" class="hidden">
+    <div class="top"><span class="brand">Para Nayra 🤍</span><span id="counter" class="counter">1 / 20</span></div>
+    <div class="progress"><span id="bar"></span></div>
+    <section id="card" class="question">
+      <div id="qnum" class="qnum"></div><h2 id="question"></h2><div id="answers" class="answers"></div><div id="feedback" class="feedback"></div>
+    </section>
+  </div>
+  <div id="result" class="hidden result">
+    <div id="score" class="score"></div>
+    <h2 id="resultTitle"></h2><p id="resultText"></p>
+    <div class="letter"><h3>🤍 Para ti, Nayra</h3><div id="letterText"></div></div>
+    <button class="btn" style="margin-top:18px" onclick="restart()">VOLVER A VER EL QUIZ</button>
+  </div>
+  <div class="footer">hecho con 🤍</div>
+</main></div><div id="spark" class="spark"></div>
+<script>
+const questions=[
+['¿Cuál es mi cantante favorito?',['Morad','Beny Jr.','Duki','Quevedo'],1],
+['¿Qué corazón es el que más me representa cuando hablamos de nosotros?',['❤️','💙','🤍','🖤'],2],
+['¿Qué quiero estudiar/trabajar en el futuro?',['Medicina','Informática e inteligencia artificial','Derecho','Arquitectura'],1],
+['¿Qué deporte de combate estuve practicando?',['Boxeo','Muay Thai','BJJ','Judo'],2],
+['¿Qué saga de superhéroes me gusta especialmente?',['DC','Marvel','Star Wars','Harry Potter'],1],
+['¿Cuál es mi Spider-Man favorito?',['Tobey Maguire','Andrew Garfield','Tom Holland','Miles Morales'],2],
+['¿Cuál de estas sagas hemos hablado de que los dos hemos visto?',['Harry Potter','El Señor de los Anillos','Los Juegos del Hambre','Divergente'],0],
+['¿Qué tipo de ropa me gusta especialmente?',['Formal/clásica','Deportiva pura','Streetwear','Vintage'],2],
+['¿Qué cantante vamos a ver juntos en concierto?',['Duki','Beny Jr.','Morad','Quevedo'],1],
+['¿Cómo se llamaba mi perrita?',['Luna','Kira','Nala','Maya'],1],
+['¿Qué día empezamos oficialmente a ser novios?',['10 de septiembre','11 de septiembre','12 de septiembre','13 de septiembre'],2],
+['¿Qué día de la semana fue nuestro primer día como novios?',['Jueves','Viernes','Sábado','Domingo'],2],
+['¿Dónde vives tú?',['Barcelona','Vigo','Madrid','Valencia'],1],
+['¿Qué es algo que me gusta hacer contigo aunque no estemos haciendo nada especial?',['Hablar durante horas y decir tonterías','Jugar siempre a lo mismo','Ver películas sin hablar','Competir por quién responde último'],0],
+['¿Qué tipo de regalo me hace más ilusión?',['Algo caro sin más','Algo que tenga un significado y esté pensado para mí','Dinero','Algo que esté de moda'],1],
+['¿Qué día de la semana nos conocimos?',['Lunes','Miércoles','Jueves','Domingo'],2],
+['¿Qué estilo de música me gusta especialmente?',['Reggaetón y trap','Rock clásico','Música clásica','Country'],0],
+['¿Qué cosa me hace especial ilusión compartir contigo?',['Ir al concierto de Beny juntos','Competir en videojuegos','Hacer deporte juntos todos los días','Ir de compras separados'],0],
+['¿Qué es algo que valoro especialmente de ti?',['Que siempre tienes que tener razón','Que eres cariñosa, divertida y te preocupas por mí','Que tenemos exactamente los mismos gustos','Que nunca hablamos de nada serio'],1],
+['Y la más importante... ¿qué eres para mí?',['Una amiga más','Una persona con la que hablo de vez en cuando','Mi novia y una persona muy importante para mí','Mi rival 😭'],2]
+];
+const letter=`Si estás leyendo esto es porque has terminado el quiz JAJAJA.
+
+Antes de nada, espero que no hayas hecho trampas 😭. Pero realmente da igual si has acertado todas o si alguna se te ha escapado, porque este quiz no era para ver cuánto sabes de mí.
+
+Era una pequeña excusa para hacerte algo especial.
+
+Quería hacer algo diferente, algo que no fuese simplemente mandarte un mensaje diciendo “te quiero” y ya. Quería hacer algo que tuviera un poco de nosotros, algo que cuando lo vieras supieras que lo había hecho pensando en ti.
+
+Porque si algo tengo claro es que desde que llegaste a mi vida han cambiado muchas cosas.
+
+Todavía me parece increíble pensar que todo empezó aquel jueves en el que nos conocimos, y que después de todo lo que hemos vivido hemos llegado hasta aquí. En tan poco tiempo te has convertido en una persona demasiado importante para mí.
+
+Me encanta hablar contigo. Me encanta poder contarte cualquier cosa, desde lo más importante hasta la tontería más pequeña, reírnos por cualquier cosa y sentir que puedo ser yo mismo contigo.
+
+Me gusta mucho cómo eres conmigo. Me gusta que seas cariñosa, que te preocupes por mí, que tengas esa forma de hacerme sentir acompañado y que incluso estando lejos consigas estar presente en mi día a día.
+
+Y hablando de la distancia... sé que no siempre es fácil. Vigo y Barcelona están lejos, y hay momentos en los que me encantaría poder simplemente estar contigo, verte, hacer planes juntos y vivir esos momentos que ahora tenemos que esperar. Pero aun así, cada conversación y cada momento contigo hacen que merezca la pena.
+
+Me hace mucha ilusión pensar en todos los momentos que todavía nos quedan por vivir. Desde cosas pequeñas como pasar una tarde juntos hasta momentos como ir contigo al concierto de Beny, que sabes que para mí es algo muy especial.
+
+Desde el 12 de septiembre puedo decir que tengo a alguien que significa muchísimo para mí. Y aunque llevemos poco tiempo, siento que eres alguien a quien quiero seguir conociendo cada día más, seguir cuidando y seguir teniendo a mi lado.
+
+Gracias por aparecer en mi vida, por hacerme sonreír, por escucharme y por ser tú.
+
+Espero que nunca olvides lo importante que eres para mí, porque aunque a veces no encuentre las palabras exactas para decirlo, te quiero muchísimo.
+
+Gracias por ser mi Nayra. 🤍🤍`;
+let i=0,score=0,locked=false;
+const $=id=>document.getElementById(id);
+function startQuiz(){ $('intro').classList.add('hidden');$('welcome').classList.remove('hidden'); }
+function showQuiz(){ $('welcome').classList.add('hidden');$('quiz').classList.remove('hidden');show(); }
+document.getElementById('startBtn').addEventListener('click',startQuiz);
+document.getElementById('welcomeBtn').addEventListener('click',showQuiz);
+document.addEventListener('touchstart',function(e){if(e.target.closest('button'))e.target.closest('button').style.webkitTapHighlightColor='transparent'},{passive:true});
+document.addEventListener('DOMContentLoaded',function(){});
+function show(){locked=false;const q=questions[i];$('counter').textContent=`${i+1} / ${questions.length}`;$('bar').style.width=`${((i+1)/questions.length)*100}%`;$('qnum').textContent=`Pregunta ${i+1}`;$('question').textContent=q[0];$('feedback').className='feedback';$('feedback').textContent='';const box=$('answers');box.innerHTML='';q[1].forEach((a,n)=>{const b=document.createElement('button');b.className='answer';b.textContent=`${String.fromCharCode(65+n)}) ${a}`;b.onclick=()=>answer(n,b);box.appendChild(b)});}
+function answer(n,btn){if(locked)return;locked=true;const q=questions[i],all=[...document.querySelectorAll('.answer')];all.forEach(x=>x.classList.add('disabled'));if(n===q[2]){score++;btn.classList.add('correct');feedback('✓ ¡CORRECTO!','ok');$('card').classList.remove('pulse');void $('card').offsetWidth;$('card').classList.add('pulse');confetti(true)}else{btn.classList.add('wrong');all[q[2]].classList.add('correct');feedback('✕ Casi... 😭','bad');$('card').classList.remove('shake');void $('card').offsetWidth;$('card').classList.add('shake');confetti(false)}setTimeout(()=>{i++;if(i<questions.length)show();else finish()},850)}
+function feedback(t,type){$('feedback').textContent=t;$('feedback').style.color=type==='ok'?'#72e28a':'#ff707b';$('feedback').classList.add('show')}
+function confetti(ok){const s=$('spark');for(let j=0;j<(ok?14:6);j++){const x=document.createElement('i');x.style.left=(35+Math.random()*30)+'%';x.style.top='48%';x.style.setProperty('--x',((Math.random()-.5)*260)+'px');x.style.setProperty('--y',((Math.random()-.8)*220)+'px');x.style.animationDelay=(Math.random()*.08)+'s';s.appendChild(x);setTimeout(()=>x.remove(),900)}}
+function finish(){ $('quiz').classList.add('hidden');$('result').classList.remove('hidden');$('score').textContent=`${score}/${questions.length}`;$('resultTitle').textContent=score===20?'¿PERO TÚ QUÉ? 😭🤍':score>=16?'Me conoces DEMASIADO 🤍':score>=11?'Bastante bien, eh 😭':'Tenemos que hablar JAJAJA 😭';$('resultText').textContent=`Has acertado ${score} de ${questions.length}. Ahora sí... viene lo importante.`;$('letterText').textContent=letter;window.scrollTo({top:0,behavior:'smooth'})}
+function restart(){i=0;score=0;$('result').classList.add('hidden');$('quiz').classList.remove('hidden');show();window.scrollTo({top:0,behavior:'smooth'})}
+</script></body></html>
